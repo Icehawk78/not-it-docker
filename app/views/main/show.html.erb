@@ -1,0 +1,70 @@
+<h1><%= @group.name %></h1>
+<% last_trip = @group.trips.last %>
+<% if last_trip.complete? %>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Bank</th>
+        <th>Modifier</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% last_trip.rolls.sort_by(&:result).each do |roll| %>
+        <tr class="<%= "danger" if last_trip.lowest_rolls.include? roll %> <%= "info" if last_trip.highest_rolls.include? roll %>">
+          <td><%= roll.player.name %></td>
+          <td><%= roll.player_group.bank %></td>
+          <td><%= roll.modifier %></td>
+          <td><%= roll.result %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= form_tag("#{last_trip.id}/do_roll", method: :put) do %>
+    <table class="table-condensed">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Bank</th>
+          <th>Action</th>
+          <th>Modifier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% last_trip.rolls.each do |roll| %>
+          <tr>
+            <td><%= roll.player.name %></td>
+            <td><%= roll.player_group.bank %></td>
+            <td>
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                  <input type="radio"
+                         class="form-control"
+                         name="rolls[<%= roll.id %>][action]"
+                         id="action-volunteer"
+                         value="action-volunteer"
+                         autocomplete="off"
+                         checked
+                  > Volunteer
+                </label>
+                <label class="btn btn-primary">
+                  <input type="radio"
+                         class="form-control"
+                         name="rolls[<%= roll.id %>][action]"
+                         id="action-spend"
+                         value="action-spend"
+                         autocomplete="off"
+                  > Spend Points
+                </label>
+              </div>
+            </td>
+            <td><input name="rolls[<%= roll.id %>][mod]" class="form-control" value="0"></td>
+          </tr>
+        <% end %>
+    </table>
+    <p><button class="btn btn-default" type="submit">Roll</button></p>
+  <% end %>
+<% end %>
+<%= link_to "Home", :root %>

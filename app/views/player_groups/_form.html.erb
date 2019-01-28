@@ -1,0 +1,29 @@
+<%= form_for(@player_group) do |f| %>
+  <% if @player_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@player_group.errors.count, "error") %> prohibited this player_group from being saved:</h2>
+
+      <ul>
+      <% @player_group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :group_id %><br>
+    <%= f.collection_select(:group_id, Group.all, :id, :name, prompt: true) %>
+  </div>
+  <div class="field">
+    <%= f.label :player_id %><br>
+    <%= f.collection_select(:player_id, Player.all, :id, :name, prompt: true) %>
+  </div>
+  <div class="field">
+    <%= f.label :bank %><br>
+    <%= f.number_field :bank %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

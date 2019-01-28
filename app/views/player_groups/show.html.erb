@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @player_group.group.name %>
+</p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @player_group.player.name %>
+</p>
+
+<p>
+  <strong>Bank:</strong>
+  <%= @player_group.bank %>
+</p>
+
+<%= link_to 'Edit', edit_player_group_path(@player_group) %> |
+<%= link_to 'Back', player_groups_path %>

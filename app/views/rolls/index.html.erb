@@ -1,0 +1,31 @@
+<h1>Listing rolls</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trip</th>
+      <th>Player group</th>
+      <th>Modifier</th>
+      <th>Raw value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rolls.each do |roll| %>
+      <tr>
+        <td><%= roll.trip.description %></td>
+        <td><%= roll.player.name %></td>
+        <td><%= roll.modifier %></td>
+        <td><%= roll.raw_value %></td>
+        <td><%= link_to 'Show', roll %></td>
+        <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
+        <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Roll', new_roll_path %>

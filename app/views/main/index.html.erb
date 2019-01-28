@@ -1,0 +1,39 @@
+<h1>Not It!</h1>
+<p>Use this tool to fairly determine who in your group will drive on the next trip you take.</p>
+<p>Rules: Select the group that will be travelling. Each player has a bank of stored point from previous rides that they've voluntarily taken penalties on their roll for, which can be spent. After all players choose their modifiers, a d20 is rolled for each player, and added to their modifier. Whoever has the lowest value is the driver.</p>
+
+<% unless @last_trip.nil? %>
+  <table class="table table-condensed">
+    <caption>Last Trip</caption>
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Current Bank</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @last_trip.rolls.sort_by(&:result).each do |roll| %>
+        <tr class="<%= "danger" if @last_trip.lowest_rolls.include? roll %> <%= "info" if @last_trip.highest_rolls.include? roll %>">
+          <td><%= roll.player.name %></td>
+          <td><%= roll.player_group.bank %></td>
+          <td><%= roll.result %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<table class="table table-condensed">
+  <caption>View Group</caption>
+  <% @groups.each do |group| %>
+    <tr><td><%= link_to group.name, "main/#{group.id}" %><td></tr>
+  <% end %>
+</table>
+
+<h1>Create Trip</h1>
+<%= form_tag('/main/create_trip', method: :post) do %>
+  <p><%= collection_select(:trip, :group_id, @groups, :id, :name, {prompt: true}, {class: 'form-control'}) %></p>
+  <p><label name="trip[description]">Description</label><input type="text" name="trip[description]"></p>
+  <p><button class="btn btn-default" type="submit">Create</button></p>
+<% end %>

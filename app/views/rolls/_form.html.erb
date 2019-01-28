@@ -1,0 +1,33 @@
+<%= form_for(@roll) do |f| %>
+  <% if @roll.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@roll.errors.count, "error") %> prohibited this roll from being saved:</h2>
+
+      <ul>
+      <% @roll.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :trip_id %><br>
+    <%= f.text_field :trip_id %>
+  </div>
+  <div class="field">
+    <%= f.label :player_group_id %><br>
+    <%= f.text_field :player_group_id %>
+  </div>
+  <div class="field">
+    <%= f.label :modifier %><br>
+    <%= f.number_field :modifier %>
+  </div>
+  <div class="field">
+    <%= f.label :raw_value %><br>
+    <%= f.number_field :raw_value %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
